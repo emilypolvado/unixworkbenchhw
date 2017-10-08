@@ -1,30 +1,29 @@
+function guessinggame {
+	n_files=$(ls -1 | wc -l)
+	while true
+	do
+		echo "How many files are there in the current directory?"
+		read response
 
+		if ! [[ $response =~ ^[0-9]+$ ]]
+		then
+			echo "This is not a non-negative number. Please try again."
+		
+		elif [[ $response -ne $n_files ]]
+		then	
+			if [[ $response -gt $n_files ]]
+			then
+				echo "This is more than the number of files. Please try again."
+			else
+				echo "This is fewer than the number of files. Please try again."
+			fi
 
-scorefile="highscores_bash"
-guess=-1
-typeset -i num=0
+		else	
+			echo "This is equal to the number of files. Congrats!"
+			echo "Program ended."
+			break
+		fi
+	done
+}
 
-echo -e "guess.bash - Guess a number between 1 and 100\n"
-
-### Generate random number
-(( answer = RANDOM % 100 + 1 ))
-
-### Play game
-while (( guess != answer )); do
-	num=num+1
-	read -p "Enter guess $num: " guess
-	if (( guess < answer )); then
-		echo "Higher..."
-	elif (( guess > answer )); then
-		echo "Lower..."
-	fi
-done
-echo -e "Correct! That took $num guesses.\n"
-
-### Save high score
-read -p "Please enter your name: " name
-echo $name $num >> $scorefile
-
-### Print high scores
-echo -e "\nPrevious high scores," 
-cat $scorefile
+guessinggame
